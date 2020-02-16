@@ -1,6 +1,13 @@
 <template>
   <ul class="sidenav app-sidenav" :class="{ open: asideIsOpen }">
-    <router-link v-for="(item, i) in list" tag="li" :key="i" :to="item.to" active-class="active">
+    <router-link
+      v-for="(item, i) in list"
+      tag="li"
+      :key="i"
+      :to="item.to"
+      :exact="item.exact"
+      active-class="active"
+    >
       <a class="waves-effect waves-orange pointer">{{ item.title }}</a>
     </router-link>
   </ul>
@@ -13,7 +20,7 @@ export default {
   name: 'v-aside',
   data: () => ({
     list: [
-      { title: 'Счет', to: 'detail-record' },
+      { title: 'Счет', to: '/', exact: true },
       { title: 'История', to: 'history' },
       { title: 'Планирование', to: 'planning' },
       { title: 'Новая запись', to: 'record' },

@@ -14,7 +14,7 @@
         label="Пароль"
         :inputClasses="{ invalid: $v.password.$error }"
         :hasError="$v.password.$error"
-        v-model.trim="email"
+        v-model.trim="password"
       />
       <v-input
         type="text"
@@ -71,7 +71,7 @@ export default {
     },
     password: {
       required,
-      minLength: minLength(4),
+      minLength: minLength(6),
     },
     name: {
       required,

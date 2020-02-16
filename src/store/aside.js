@@ -1,13 +1,10 @@
-import Vue from "vue";
-import Vuex from "vuex";
-
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default {
   state: {
-    isOpen: true
+    isOpen: true,
   },
-  mutations: {},
-  actions: {},
-  modules: {}
-});
+  mutations: {
+    toggleAside(state) {
+      state.isOpen = !state.isOpen
+    },
+  },
+}

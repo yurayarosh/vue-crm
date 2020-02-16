@@ -72,8 +72,8 @@ export default {
       toggleAside: 'toggleAside',
     }),
     logout() {
-     this.$router.push('login?message=logout')      
-    }
+      this.$router.push('login?message=logout')
+    },
   },
 }
 </script>

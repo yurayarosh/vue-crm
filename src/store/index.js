@@ -1,19 +1,16 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue'
+import Vuex from 'vuex'
+import aside from './aside'
+import auth from './auth'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    aside: {
-      isOpen: true
-    }
-  },
-  mutations: {
-    toggleAside(state) {
-      state.aside.isOpen = !state.aside.isOpen      
-    }
-  },
+  state: {},
+  mutations: {},
   actions: {},
-  modules: {}
-});
+  modules: {
+    aside,
+    auth,
+  },
+})

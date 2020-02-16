@@ -14,7 +14,7 @@
         label="Пароль"
         :inputClasses="{ invalid: $v.password.$error }"
         :hasError="$v.password.$error"
-        v-model.trim="email"
+        v-model.trim="password"
       />
     </div>
     <div class="card-action">
@@ -50,8 +50,8 @@ export default {
     password: '',
   }),
   mounted() {
-    const { message } = this.$route.query    
-    if(messages[message]) this.$toastMessage(messages[message])    
+    const { message } = this.$route.query
+    if (messages[message]) this.$toastMessage(messages[message])
   },
   validations: {
     email: {
@@ -60,21 +60,25 @@ export default {
     },
     password: {
       required,
-      minLength: minLength(4),
+      minLength: minLength(6),
     },
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
+      if (this.$v.$invalid) {
+        this.$v.$touch()
+        return
+      }
       const formData = {
         email: this.email,
         password: this.password,
       }
-      this.$v.$touch()
 
-      if (this.$v.$invalid) {
-        console.log('error', formData)
-      } else {
-        console.log('success', formData)
+      try {
+        await this.$store.dispatch('login', formData)
+        this.$router.push('/')
+      } catch (error) {        
+        // console.error(error)
       }
     },
   },
