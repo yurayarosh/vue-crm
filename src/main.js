@@ -5,7 +5,6 @@ import store from './store'
 import showMessage from '@/plugins/showMessage'
 
 import './registerServiceWorker'
-// import 'materialize-css/dist/js/materialize'
 import 'materialize-css/dist/css/materialize.css'
 import './index.css'
 
