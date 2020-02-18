@@ -5,5 +5,9 @@ export default {
     Vue.prototype.$toastMessage = html => {
       M.toast({ html })
     }
+
+    Vue.prototype.$toastError = html => {
+      M.toast({ html: `[Ошибка]: ${html}` })
+    }
   },
 }

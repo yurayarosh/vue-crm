@@ -5,28 +5,28 @@
       <v-input
         type="text"
         label="Email"
-        :inputClasses="{ invalid: $v.email.$error }"
+        :inputClasses="{ 'invalid': $v.email.$error }"
         :hasError="$v.email.$error"
         v-model.trim="email"
       />
       <v-input
         type="password"
         label="Пароль"
-        :inputClasses="{ invalid: $v.password.$error }"
+        :inputClasses="{ 'invalid': $v.password.$error }"
         :hasError="$v.password.$error"
         v-model.trim="password"
       />
       <v-input
         type="text"
         label="Имя"
-        :inputClasses="{ invalid: $v.name.$error }"
+        :inputClasses="{ 'invalid': $v.name.$error }"
         :hasError="$v.name.$error"
         v-model.trim="name"
       />
       <div>
         <label>
           <input type="checkbox" v-model="agree" />
-          <span>С правилами согласен</span>          
+          <span>С правилами согласен</span>
         </label>
         <p v-show="$v.agree.$error" class="helper-text invalid"><small>Поле обязательно</small></p>
       </div>
@@ -62,7 +62,7 @@ export default {
     email: '',
     password: '',
     name: '',
-    agree: false
+    agree: false,
   }),
   validations: {
     email: {
@@ -77,24 +77,54 @@ export default {
       required,
     },
     agree: {
-      argree: checked => checked
-    }
+      argree: checked => checked,
+    },
   },
   methods: {
-    onSubmit() {
-      console.log(this.$v.agree);
-      
-      const formData = {
-        email: this.email,
-        password: this.password,
-        name: this.name,
+    async onSubmit() {
+      if (this.$v.invalid) {
+        this.$v.$touch()
+        return
       }
-      this.$v.$touch()
 
-      if (this.$v.$invalid) {
-        console.log('error', formData)
-      } else {
-        console.log('success', formData)
+      try {
+        const response = await this.$store.dispatch('register', {
+          email: this.email,
+          password: this.password,
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+
+          const BASE_BILL = 1000
+
+          localStorage.setItem('token', data.idToken)
+          localStorage.setItem('userName', this.name)
+          localStorage.setItem('userId', data.localId)
+          localStorage.setItem('userBill', BASE_BILL)
+
+          this.$store.commit('setUser', {
+            name: this.name,
+            id: data.localId,
+            bill: BASE_BILL,
+          })
+
+          const userData = {
+            name: this.$store.state.auth.userName,
+            bill: this.$store.state.auth.userBill,
+          }
+
+          await fetch(`https://vue-crm-e390f.firebaseio.com/users/${data.localId}.json`, {
+            method: 'POST',
+            body: JSON.stringify(userData),
+          })
+
+          this.$router.push('/')
+        } else {
+          this.$toastError('Этот email уже занят')
+        }
+      } catch (error) {
+        console.error(error)
       }
     },
   },

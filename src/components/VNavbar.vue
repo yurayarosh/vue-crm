@@ -16,7 +16,7 @@
             data-target="dropdown"
             ref="dropdownTrigger"
           >
-            USER NAME
+            {{ $store.state.auth.userName || 'user name ' }}
             <i class="material-icons right">arrow_drop_down</i>
           </a>
 
@@ -55,7 +55,7 @@ export default {
       this.date = new Intl.DateTimeFormat('uk-UA', {
         hour12: false,
         year: 'numeric',
-        month: 'numeric',
+        month: 'long',
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
@@ -72,6 +72,7 @@ export default {
       toggleAside: 'toggleAside',
     }),
     logout() {
+      this.$store.dispatch('logout')
       this.$router.push('login?message=logout')
     },
   },

@@ -1,8 +1,10 @@
 <template>
-  <div class="app-main-layout">
+  <v-preloader v-if="isLoading" />
+
+  <div class="app-main-layout" v-else>
     <v-navbar />
 
-    <v-aside />    
+    <v-aside />
 
     <main class="app-content" :class="{ full: !asideIsOpen }">
       <div class="app-page">
@@ -27,9 +29,25 @@ import VAside from '@/components/VAside'
 
 export default {
   name: 'default-layout',
+  data: () => ({
+    isLoading: true
+  }),
   components: {
     VNavbar,
-    VAside
+    VAside,
+  },
+  mounted() {
+    if (localStorage.token) {
+      this.$store.commit('setUser', {
+        name: localStorage.userName,
+        id: localStorage.userId,
+        bill: localStorage.userBill,
+      })
+
+      this.isLoading = false
+    } else {
+      this.$router.push('login')
+    }
   },
   computed: {
     ...mapState({

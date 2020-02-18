@@ -5,14 +5,14 @@
       <v-input
         type="text"
         label="Email"
-        :inputClasses="{ invalid: $v.email.$error }"
+        :inputClasses="{ 'invalid': $v.email.$error }"
         :hasError="$v.email.$error"
         v-model.trim="email"
       />
       <v-input
         type="password"
         label="Пароль"
-        :inputClasses="{ invalid: $v.password.$error }"
+        :inputClasses="{ 'invalid': $v.password.$error }"
         :hasError="$v.password.$error"
         v-model.trim="password"
       />
@@ -75,10 +75,35 @@ export default {
       }
 
       try {
-        await this.$store.dispatch('login', formData)
-        this.$router.push('/')
-      } catch (error) {        
-        // console.error(error)
+        const response = await this.$store.dispatch('login', formData)
+
+        if (response.ok) {
+          const data = await response.json()
+
+          const userDataResponse = await fetch(
+            `https://vue-crm-e390f.firebaseio.com/users/${data.localId}.json`
+          )
+
+          const userData = await userDataResponse.json()
+          const [userInfo] = Object.values(userData)
+
+          localStorage.setItem('token', data.idToken)
+          localStorage.setItem('userName', userInfo.name)
+          localStorage.setItem('userId', data.localId)
+          localStorage.setItem('userBill', userInfo.bill)
+
+          this.$store.commit('setUser', {
+            name: userInfo.name,
+            id: data.localId,
+            bill: userInfo.bill,
+          })
+
+          this.$router.push('/')
+        } else {
+          this.$toastError('Проверьте правильность данных')
+        }
+      } catch (error) {
+        console.error(error)
       }
     },
   },
