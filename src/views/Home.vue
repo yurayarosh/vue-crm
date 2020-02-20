@@ -3,57 +3,47 @@
     <div class="page-title">
       <h3>Счет</h3>
 
-      <button class="btn waves-effect waves-light btn-small">
+      <button class="btn waves-effect waves-light btn-small" @click="refreshData">
         <i class="material-icons">refresh</i>
       </button>
     </div>
 
-    <div class="row">
-      <div class="col s12 m6 l4">
-        <div class="card light-blue bill-card">
-          <div class="card-content white-text">
-            <span class="card-title">Счет в валюте</span>
+    <v-preloader v-if="isLoading" />
 
-            <p class="currency-line">
-              <span>12.0 Р</span>
-            </p>
-          </div>
-        </div>
-      </div>
+    <div class="row" v-else>
+      <v-bill :rates="currency.rates" />
 
-      <div class="col s12 m6 l8">
-        <div class="card orange darken-3 bill-card">
-          <div class="card-content white-text">
-            <div class="card-header">
-              <span class="card-title">Курс валют</span>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Валюта</th>
-                  <th>Курс</th>
-                  <th>Дата</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td>руб</td>
-                  <td>12121</td>
-                  <td>12.12.12</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      <v-currency :rates="currency.rates" :date="currency.date" />
     </div>
   </div>
 </template>
 
 <script>
+import VBill from '@/components/bills/VBill'
+import VCurrency from '@/components/bills/VCurrency'
+
 export default {
   name: 'Home',
-  components: {},
+  components: {
+    VBill,
+    VCurrency,
+  },
+  data: () => ({
+    currency: {},
+    isLoading: true,
+  }),
+  async mounted() {
+    this.getCurrency()
+  },
+  methods: {
+    async getCurrency() {
+      this.currency = await this.$store.dispatch('getCurrency')
+      this.isLoading = false
+    },
+    refreshData() {
+      this.isLoading = true
+      this.getCurrency()
+    },
+  },
 }
 </script>

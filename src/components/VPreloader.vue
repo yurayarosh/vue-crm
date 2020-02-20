@@ -1,5 +1,5 @@
 <template>
-  <div class="preloader-real-wrapper">
+  <div class="preloader-another-wrapper">
     <div class="preloader-wrapper active">
       <div class="spinner-layer spinner-blue-only">
         <div class="circle-clipper left">
@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style lang="sass">
-.preloader-real-wrapper
+.preloader-another-wrapper
   display: flex
   align-items: center
   justify-content: center

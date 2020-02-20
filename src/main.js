@@ -4,13 +4,18 @@ import router from './router'
 import store from './store'
 import showMessage from '@/plugins/showMessage'
 import VPreloader from '@/components/VPreloader'
+import currencyFilter from '@/filters/currency.filter'
+import dateFilter from '@/filters/date.filter'
 
 import './registerServiceWorker'
 import 'materialize-css/dist/css/materialize.css'
 import './index.css'
 
+
 Vue.config.productionTip = false
 Vue.use(showMessage)
+Vue.filter('date', dateFilter)
+Vue.filter('currency', currencyFilter)
 Vue.component('v-preloader', VPreloader)
 
 new Vue({

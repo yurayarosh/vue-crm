@@ -30,7 +30,7 @@ import VAside from '@/components/VAside'
 export default {
   name: 'default-layout',
   data: () => ({
-    isLoading: true
+    isLoading: true,
   }),
   components: {
     VNavbar,

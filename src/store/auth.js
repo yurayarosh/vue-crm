@@ -52,4 +52,13 @@ export default {
       localStorage.removeItem('userId')
     },
   },
+  getters: {
+    userInfo({ userName, userId, userBill }) {
+      return {
+        name: userName,
+        id: userId,
+        bill: userBill,
+      }
+    },
+  },
 }

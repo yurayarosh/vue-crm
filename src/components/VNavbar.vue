@@ -5,7 +5,7 @@
         <a href="#" @click.prevent="toggleAside">
           <i class="material-icons black-text">dehaze</i>
         </a>
-        <span class="black-text">{{ date }}</span>
+        <span class="black-text" v-if="date">{{ date | date('date-time') }}</span>
       </div>
 
       <ul class="right hide-on-small-and-down">
@@ -52,15 +52,7 @@ export default {
   mounted() {
     this.dropdown = M.Dropdown.init(this.$refs.dropdownTrigger)
     this.updateDate = setInterval(() => {
-      this.date = new Intl.DateTimeFormat('uk-UA', {
-        hour12: false,
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-      }).format(new Date())
+      this.date = new Date()
     }, 1000)
   },
   beforeDestroy() {
