@@ -19,10 +19,7 @@
     </div>
     <div class="card-action">
       <div>
-        <button class="btn waves-effect waves-light auth-submit" type="submit">
-          Войти
-          <i class="material-icons right">send</i>
-        </button>
+        <v-btn class="auth-submit" icon="send">Войти</v-btn>
       </div>
 
       <p class="center">
@@ -37,6 +34,7 @@
 import { validationMixin } from 'vuelidate'
 import { required, minLength, email } from 'vuelidate/lib/validators/'
 import VInput from '@/components/form/VInput'
+import VBtn from '@/components/VBtn'
 import messages from '@/utils/messages'
 
 export default {
@@ -44,6 +42,7 @@ export default {
   mixins: [validationMixin],
   components: {
     VInput,
+    VBtn
   },
   data: () => ({
     email: '',

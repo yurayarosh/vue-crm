@@ -6,65 +6,131 @@
     <section>
       <div class="row">
         <div class="col s12 m6">
-          <div>
-            <div class="page-subtitle">
-              <h4>Создать</h4>
-            </div>
+          <v-categorie-form title="Создать" btnTitle="Создать" @submit.prevent="onAddSubmit">
+            <v-input
+              type="text"
+              label="Название"
+              errorMessage="Введите название"
+              :inputClasses="{ 'invalid': $v.addFormName.$error }"
+              :hasError="$v.addFormName.$error"
+              v-model.trim="addFormName"
+            />
 
-            <form>
-              <div class="input-field">
-                <input id="name" type="text" />
-                <label for="name">Название</label>
-                <span class="helper-text invalid">Введите название</span>
-              </div>
-
-              <div class="input-field">
-                <input id="limit" type="number" />
-                <label for="limit">Лимит</label>
-                <span class="helper-text invalid">Минимальная величина</span>
-              </div>
-
-              <button class="btn waves-effect waves-light" type="submit">
-                Создать
-                <i class="material-icons right">send</i>
-              </button>
-            </form>
-          </div>
+            <v-input
+              type="number"
+              label="Лимит"
+              errorMessage="Минимальная величина"
+              :inputClasses="{ 'invalid': $v.addFormLimit.$error }"
+              :hasError="$v.addFormLimit.$error"
+              v-model.trim="addFormLimit"
+            />
+          </v-categorie-form>
         </div>
+
         <div class="col s12 m6">
-          <div>
-            <div class="page-subtitle">
-              <h4>Редактировать</h4>
-            </div>
+          <v-categorie-form
+            title="Редактировать"
+            btnTitle="Обновить"
+            @submit.prevent="onChangeSubmit"
+          >
 
-            <form>
-              <div class="input-field">
-                <select>
-                  <option>Category</option>
-                </select>
-                <label>Выберите категорию</label>
-              </div>
+            <v-select
+              ref="select"
+              label="Выберите категорию"
+              v-model.trim="addFormCategorie"
+            >
+              <option value="1" selected>Category</option>
+              <option value="2">Category 1</option>
+            </v-select>
+            <v-input
+              type="text"
+              label="Название"
+              errorMessage="Введите название"
+              :inputClasses="{ 'invalid': $v.changeFormName.$error }"
+              :hasError="$v.changeFormName.$error"
+              v-model.trim="changeFormName"
+            />
 
-              <div class="input-field">
-                <input type="text" id="name" />
-                <label for="name">Название</label>
-                <span class="helper-text invalid">TITLE</span>
-              </div>
-
-              <div class="input-field">
-                <input id="limit" type="number" />
-                <label for="limit">Лимит</label>
-                <span class="helper-text invalid">LIMIT</span>
-              </div>
-
-              <button class="btn waves-effect waves-light" type="submit">
-                Обновить
-                <i class="material-icons right">send</i>
-              </button>
-            </form>
-          </div>
+            <v-input
+              type="number"
+              label="Лимит"
+              errorMessage="Минимальная величина"
+              :inputClasses="{ 'invalid': $v.changeFormLimit.$error }"
+              :hasError="$v.changeFormLimit.$error"
+              v-model.trim="changeFormLimit"
+            />
+          </v-categorie-form>
         </div>
       </div>
     </section>
   </div>
 </template>
+
+<script>
+import M from 'materialize-css'
+import { validationMixin } from 'vuelidate'
+import { required } from 'vuelidate/lib/validators/'
+import VCategorieForm from '@/components/form/VCategorieForm'
+import VInput from '@/components/form/VInput'
+import VSelect from '@/components/form/VSelect'
+
+export default {
+  name: 'Categories',
+  components: {
+    VCategorieForm,
+    VInput,
+    VSelect,
+  },
+  mixins: [validationMixin],
+  data: () => ({
+    addFormName: '',
+    addFormLimit: '',
+    changeFormName: '',
+    changeFormLimit: '',
+    addFormCategorie: ''
+  }),
+  methods: {
+    onAddSubmit() {
+      this.$v.addFormName.$touch()
+      this.$v.addFormLimit.$touch()
+
+      if (this.$v.addFormName.$invalid || this.$v.addFormLimit.$invalid ) {
+        console.log('error')
+
+        return
+      }
+
+      console.log('success')
+    },
+    onChangeSubmit() {
+      this.$v.changeFormName.$touch()
+      this.$v.changeFormLimit.$touch()
+
+      this.select = M.FormSelect.getInstance(this.$refs.select.$el.querySelector('select'))
+
+      if (this.$v.addFormName.$invalid || this.$v.addFormLimit.$invalid ) {
+        console.log('error')
+
+        return
+      }
+
+      console.log('success')
+    }
+  },
+  validations: {
+    addFormName: {
+      required,
+    },
+    addFormLimit: {
+      required,
+    },
+    changeFormName: {
+      required,
+    },
+    changeFormLimit: {
+      required,
+    }
+  },
+}
+</script>
+
