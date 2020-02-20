@@ -10,10 +10,11 @@ export default new Vuex.Store({
   mutations: {},
   actions: {
     async getCurrency() {
-      const key = process.env.VUE_APP_FIXER_KEY
+      // const key = process.env.VUE_APP_FIXER_KEY
 
       const response = await fetch(
-        `http://data.fixer.io/api/latest?access_key=${key}&symbols=UAH,USD,EUR`
+        'https://api.exchangeratesapi.io/latest'
+        // `http://data.fixer.io/api/latest?access_key=${key}&symbols=UAH,USD,EUR`
       )
       return await response.json()
     },

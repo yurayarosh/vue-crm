@@ -17,7 +17,7 @@
           <tbody>
             <tr v-for="(curr, i) in currencies" :key="i">
               <td>{{ curr }}</td>
-              <td>{{ rates[curr] }}</td>
+              <td>{{ rates[curr] || 1 }}</td>
               <td>{{ date }}</td>
             </tr>
           </tbody>
@@ -39,7 +39,7 @@ export default {
     },
   },
   data: () => ({
-    currencies: ['UAH', 'USD', 'EUR'],
+    currencies: ['EUR', 'USD'],
   }),
 }
 </script>

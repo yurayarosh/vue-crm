@@ -16,21 +16,17 @@
 export default {
   name: 'v-bill',
   data: () => ({
-    currencies: ['UAH', 'EUR', 'USD'],
+    currencies: ['EUR', 'USD'],
   }),
   props: {
     rates: {
       type: Object,
     },
   },
-  computed: {
-    baseCurrency() {
-      return this.$store.getters.userInfo.bill / (this.rates['UAH'] / this.rates['EUR'])
-    },
-  },
   methods: {
     getCurrency(currency) {
-      return Math.floor(this.baseCurrency * this.rates[currency])
+      if (currency === 'EUR') return Math.floor(1 * this.$store.getters.userInfo.bill)
+      return Math.floor(this.rates[currency] * this.$store.getters.userInfo.bill)
     },
   },
 }
