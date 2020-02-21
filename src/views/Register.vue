@@ -113,7 +113,7 @@ export default {
             bill: this.$store.state.auth.userBill,
           }
 
-          await fetch(`https://vue-crm-e390f.firebaseio.com/users/${data.localId}.json`, {
+          await fetch(`https://vue-crm-e390f.firebaseio.com/users/${data.localId}/info.json`, {
             method: 'POST',
             body: JSON.stringify(userData),
           })

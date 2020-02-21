@@ -80,7 +80,7 @@ export default {
           const data = await response.json()
 
           const userDataResponse = await fetch(
-            `https://vue-crm-e390f.firebaseio.com/users/${data.localId}.json`
+            `https://vue-crm-e390f.firebaseio.com/users/${data.localId}/info.json`
           )
 
           const userData = await userDataResponse.json()

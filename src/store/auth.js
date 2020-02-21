@@ -6,9 +6,9 @@ export default {
   },
   mutations: {
     setUser(state, { name, id, bill }) {
-      if (name) state.userName = name
-      if (id) state.userId = id
-      if (bill) state.userBill = bill
+      if (name !== undefined) state.userName = name
+      if (id !== undefined) state.userId = id
+      if (bill !== undefined) state.userBill = bill
     },
   },
   actions: {
@@ -45,11 +45,17 @@ export default {
         console.error(error)
       }
     },
-    logout() {
+    logout({ commit }) {
       localStorage.removeItem('token')
       localStorage.removeItem('userName')
       localStorage.removeItem('userBill')
       localStorage.removeItem('userId')
+
+      commit('setUser', {
+        name: null,
+        id: null,
+        bill: null,
+      })
     },
   },
   getters: {

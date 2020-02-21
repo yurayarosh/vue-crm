@@ -1,33 +1,40 @@
 <template>
-  <div class="input-field">
+  <div class="">
+    <label :for="_uid">{{ label }}</label>
     <select
       ref="select"
       :id="_uid"
+      class="browser-default"
       :class="inputClasses"
       :value="value"
       v-bind="$attrs"
-      @change="$emit('change', $event.target.value)"
+      v-on="inputListeners"
     >
-      <slot></slot>
+      <option v-for="(option, i) in options" :key="i" :value="i">{{
+        option.title
+      }}</option>
     </select>
-    <label :for="_uid">{{ label }}</label>
+
     <small v-show="hasError" class="helper-text invalid">{{ errorMessage }}</small>
   </div>
 </template>
 
 <script>
-import M from 'materialize-css'
-
 export default {
   name: 'v-select',
   data: () => ({
     hasFocus: false,
+    select: null,
   }),
-  mounted() {
-    this.select = M.FormSelect.init(this.$refs.select, {})
-  },
-  beforeDestroy() {
-    if(this.select.destroy) this.select.destroy()
+  computed: {
+    inputListeners() {
+      return {
+        ...this.$listeners,
+        input: event => {
+          this.$emit('input', event.target.value)
+        },
+      }
+    },
   },
   props: {
     value: {
@@ -49,7 +56,10 @@ export default {
     inputClasses: {
       type: Object,
     },
+    options: {
+      type: Array,
+      required: true
+    }
   },
-  methods: {},  
 }
 </script>
