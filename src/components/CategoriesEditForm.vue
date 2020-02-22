@@ -1,7 +1,7 @@
 <template>
   <p v-if="!categories.length">Пока нет ни одной категории</p>
 
-  <v-categorie-form v-else title="Редактировать" btnTitle="Обновить" @submit.prevent="onSubmit">
+  <v-form v-else title="Редактировать" btnTitle="Обновить" @submit.prevent="onSubmit">
     <v-select label="Выберите категорию" v-model="categorie" :options="categories" />
 
     <v-input
@@ -21,20 +21,20 @@
       :hasError="$v.limit.$error"
       v-model.trim="limit"
     />
-  </v-categorie-form>
+  </v-form>
 </template>
 
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, minValue } from 'vuelidate/lib/validators'
-import VCategorieForm from '@/components/form/VCategorieForm'
+import VForm from '@/components/form/VForm'
 import VInput from '@/components/form/VInput'
 import VSelect from '@/components/form/VSelect'
 
 export default {
   name: 'categories-edit-form',
   components: {
-    VCategorieForm,
+    VForm,
     VInput,
     VSelect,
   },

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="page-subtitle">
+    <div v-if="title" :class="classes">
       <h4>{{ title }}</h4>
     </div>
 
-    <form v-on="$listeners">
+    <form v-on="$listeners" :class="formClass">
       <slot></slot>
       <v-btn icon="send">{{ btnTitle }}</v-btn>
     </form>
@@ -15,7 +15,7 @@
 import VBtn from '@/components/VBtn'
 
 export default {
-  name: 'v-categorie-form',
+  name: 'v-form',
   components: {
     VBtn,
   },
@@ -26,6 +26,17 @@ export default {
     btnTitle: {
       type: String
     },
-  }
+    titleClass: {
+      type: [String, Object]
+    },
+    formClass: {
+      type: String
+    }
+  },
+  computed: {
+    classes() {
+      return this.titleClass || 'page-subtitle'
+    }
+  },
 }
 </script>

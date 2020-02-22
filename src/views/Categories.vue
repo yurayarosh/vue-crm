@@ -26,23 +26,27 @@ import CategoriesEditForm from '@/components/CategoriesEditForm'
 export default {
   name: 'Categories',
   data: () => ({
-    categories: [],
-    isLoading: false
+    isLoading: false,
   }),
   components: {
     CategoriesAddForm,
     CategoriesEditForm,
   },
-  async  mounted() {
+  async mounted() {
     this.isLoading = true
 
-    await this.$store.dispatch('fetchCategories', {
-      id: this.$store.state.auth.userId
-    })
-
-    this.categories = this.$store.getters.categories
+    if (!this.$store.getters.categories.length) {
+      await this.$store.dispatch('fetchCategories', {
+        id: this.$store.state.auth.userId,
+      })
+    }
+    
     this.isLoading = false
+  },
+  computed: {
+    categories() {
+      return this.$store.getters.categories
+    },
   },
 }
 </script>
-

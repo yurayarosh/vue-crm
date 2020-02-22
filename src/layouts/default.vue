@@ -8,9 +8,7 @@
 
     <main class="app-content" :class="{ full: !asideIsOpen }">
       <div class="app-page">
-        <div>
           <router-view></router-view>
-        </div>
       </div>
     </main>
 
