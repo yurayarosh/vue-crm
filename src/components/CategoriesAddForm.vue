@@ -43,16 +43,21 @@ export default {
 
       if (this.$v.$invalid) return
 
-      await this.$store.dispatch('addNewCategorie', {
-        title: this.title,
-        limit: this.limit,
+      const catId = performance.now().toString()
+
+      await this.$store.dispatch('postNewCategorie', {
+        categorie: {
+          title: this.title,
+          limit: this.limit,
+          id: catId,
+        },
         userId: this.$store.state.auth.userId,
-        id: performance.now()
       })
 
       this.$store.commit('addCategorie', {
         title: this.title,
-        limit: this.limit
+        limit: this.limit,
+        id: catId
       })
 
       this.title = ''

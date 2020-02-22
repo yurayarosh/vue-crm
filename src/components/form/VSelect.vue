@@ -10,7 +10,7 @@
       v-bind="$attrs"
       v-on="inputListeners"
     >
-      <option v-for="(option, i) in options" :key="i" :value="i">{{
+      <option v-for="(option, i) in options" :key="i" :value="option.id">{{
         option.title
       }}</option>
     </select>

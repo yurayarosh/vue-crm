@@ -20,10 +20,10 @@ export default {
         commit('addCategorie', cat)
       })
     },
-    async addNewCategorie(ctx, { title, limit, id }) {
-      return await fetch(`https://vue-crm-e390f.firebaseio.com/users/${id}/categories.json`, {
+    async postNewCategorie(ctx, { categorie, userId }) {
+      return await fetch(`https://vue-crm-e390f.firebaseio.com/users/${userId}/categories.json`, {
         method: 'POST',
-        body: JSON.stringify({ title, limit }),
+        body: JSON.stringify(categorie),
       })
     },
   },

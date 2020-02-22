@@ -1,5 +1,7 @@
 <template>
-  <v-categorie-form title="Редактировать" btnTitle="Обновить" @submit.prevent="onSubmit">
+  <p v-if="!categories.length">Пока нет ни одной категории</p>
+
+  <v-categorie-form v-else title="Редактировать" btnTitle="Обновить" @submit.prevent="onSubmit">
     <v-select label="Выберите категорию" v-model="categorie" :options="categories" />
 
     <v-input
@@ -39,14 +41,35 @@ export default {
   props: {
     categories: {
       type: Array,
-    }
+    },
   },
   mixins: [validationMixin],
   data: () => ({
     title: '',
     limit: '',
-    categorie: 0,
+    categorie: null,
   }),
+  mounted() {
+    if (this.categories.length > 0) {
+      const { id, title, limit } = this.categories[0]
+
+      this.categorie = id
+      this.setInputsValues({ title, limit })
+    }
+  },
+  watch: {
+    categories(cats) {
+      if(cats.length > 1) return
+      const { title, limit, id } = this.categories[0]
+
+      this.categorie = id
+      this.setInputsValues({ title, limit })
+    },
+    categorie(value) {      
+      const { title, limit } = this.categories.find(cat => value === cat.id)
+      this.setInputsValues({ title, limit })
+    },
+  },
   methods: {
     onSubmit() {
       this.$v.$touch()
@@ -56,6 +79,10 @@ export default {
 
       console.log('success')
     },
+    setInputsValues({ title, limit }) {
+      this.title = title
+      this.limit = limit
+    }
   },
   validations: {
     title: {
@@ -63,7 +90,7 @@ export default {
     },
     limit: {
       required,
-      minValue: minValue(10)
+      minValue: minValue(10),
     },
   },
 }
