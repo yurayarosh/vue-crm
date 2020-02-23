@@ -10,10 +10,10 @@
     <p v-else-if="!categories.length">Пока нет ни одной категории</p>
 
     <section v-else>
-      <div v-for="(category, i) in categories" :key="i">
+      <div v-for="(category, i) in categories" :key="i" v-tooltip="category.tooltip">
         <p>
           <strong>{{ category.title }}:</strong>
-          {{ category.spend | currency('EUR') }} из {{ category.limit | currency('EUR') }}
+          {{ category.spend | currency() }} из {{ category.limit | currency() }}
         </p>
         <div class="progress">
           <div
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import currencyFilter from '@/filters/currency.filter'
+
 export default {
   name: 'planning',
   data: () => ({
@@ -57,6 +59,10 @@ export default {
 
       const percent = (100 * spend) / cat.limit
       const progress = percent > 100 ? 100 : percent
+      const restValue = +spend - +cat.limit
+      const tooltip = `${restValue < 0 ? 'Осталось' : 'Лимит превышен на'} ${currencyFilter(
+        Math.abs(restValue)
+      )}`
 
       let color
       if (percent < 60) color = 'green'
@@ -68,6 +74,7 @@ export default {
         progress,
         color,
         spend,
+        tooltip,
       }
     })
 
