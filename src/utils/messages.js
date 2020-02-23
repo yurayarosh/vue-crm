@@ -1,3 +1,4 @@
 export default {
-  logout: 'Вы вышли из системы'
+  logout: 'Вы вышли из системы',
+  'sould-login': 'Войдите в систему'
 }

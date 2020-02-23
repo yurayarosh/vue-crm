@@ -19,8 +19,13 @@ export default {
       const response = await fetch(
         `https://vue-crm-e390f.firebaseio.com/users/${userId}/records.json`
       )
+      
+      const records = await response.json()
 
-      return await response.json()
+      return Object.keys(records).map(id => ({
+        ...records[id],
+        id,
+      }))
     },
   },
 }

@@ -52,7 +52,7 @@ export default {
         this.isLoading = false
       }
     } else {
-      this.$router.push('login')
+      this.$router.push('login?message=sould-login')
     }
   },
   computed: {

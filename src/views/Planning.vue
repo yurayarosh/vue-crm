@@ -50,7 +50,7 @@ export default {
     const records = await this.$store.dispatch('fetchRecords')
 
     this.categories = categories.map(cat => {
-      const spend = Object.values(records)
+      const spend = records
         .filter(record => record.categorie === cat.id)
         .filter(record => record.type === 'outcome')
         .reduce((total, currRecord) => {
