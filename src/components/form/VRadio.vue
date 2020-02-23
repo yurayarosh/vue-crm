@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     checked() {
-      return this.modelValue == this.value
+      return this.modelValue === this.value
     },
     inputListeners() {
       return {

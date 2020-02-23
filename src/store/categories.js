@@ -8,9 +8,10 @@ export default {
     },
   },
   actions: {
-    async fetchCategories({ commit }, { id }) {
+    async fetchCategories({ commit, getters }) {
+      const userId = getters.userInfo.id
       const response = await fetch(
-        `https://vue-crm-e390f.firebaseio.com/users/${id}/categories.json`
+        `https://vue-crm-e390f.firebaseio.com/users/${userId}/categories.json`
       )
 
       const data = await response.json()

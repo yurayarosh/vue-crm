@@ -79,21 +79,15 @@ export default {
         if (response.ok) {
           const data = await response.json()
 
-          const userDataResponse = await fetch(
-            `https://vue-crm-e390f.firebaseio.com/users/${data.localId}/info.json`
-          )
+          this.$store.commit('setUser', {
+            id: data.localId,
+          })          
 
-          const userData = await userDataResponse.json()
-          const [userInfo] = Object.values(userData)
-
-          localStorage.setItem('token', data.idToken)
-          localStorage.setItem('userName', userInfo.name)
+          const userInfo = await this.$store.dispatch('getUserInfo')
           localStorage.setItem('userId', data.localId)
-          localStorage.setItem('userBill', userInfo.bill)
 
           this.$store.commit('setUser', {
             name: userInfo.name,
-            id: data.localId,
             bill: userInfo.bill,
           })
 

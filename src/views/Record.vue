@@ -1,5 +1,8 @@
 <template>
   <v-preloader v-if="isLoading" />
+
+  <p v-else-if="!categories.length">Пока нет ни одной категории</p>
+
   <v-form
     title="Новая запись"
     titleClass="page-title"
@@ -62,7 +65,7 @@ export default {
     amount: 10,
     categorie: null,
     type: 'income',
-    isLoading: false,
+    isLoading: true,
   }),
   validations: {
     description: {
@@ -74,13 +77,14 @@ export default {
     },
   },
   async mounted() {
-    this.isLoading = true
-
     if (!this.$store.getters.categories.length) {
-      await this.$store.dispatch('fetchCategories', {
-        id: this.$store.state.auth.userId,
-      })
+      await this.$store.dispatch('fetchCategories')
     }
+
+    if(!this.categories.length) {
+      this.isLoading = false
+      return
+    }    
 
     const { id } = this.categories[0]
     this.categorie = id
@@ -93,10 +97,36 @@ export default {
     },
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       this.$v.$touch()
-      if (this.$v.$invalid) return      
-      
+      if (this.$v.$invalid) return
+
+      await this.$store.dispatch('postRecord', {
+        categorie: this.categorie,
+        type: this.type,
+        amount: this.amount,
+        description: this.description,
+        date: new Date().toJSON(),
+      })
+
+      const updBill =
+        this.type === 'income'
+          ? this.$store.getters.userInfo.bill + this.amount
+          : this.$store.getters.userInfo.bill - this.amount
+
+      this.$store.commit('setUser', {
+        bill: updBill,
+      })
+
+      this.$store.dispatch('updateUserInfo', {
+        bill: updBill,
+      })
+
+      this.type = 'income'
+      this.description = ''
+      this.amount = 10
+      this.$v.$reset()
+      this.$toastMessage('Запись добавлена')
     },
   },
 }

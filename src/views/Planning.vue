@@ -2,19 +2,76 @@
   <div>
     <div class="page-title">
       <h3>Планирование</h3>
-      <h4>12 212</h4>
+      <h4>{{ bill | currency('EUR') }}</h4>
     </div>
 
-    <section>
-      <div>
+    <v-preloader v-if="isLoading" />
+
+    <p v-else-if="!categories.length">Пока нет ни одной категории</p>
+
+    <section v-else>
+      <div v-for="(category, i) in categories" :key="i">
         <p>
-          <strong>Девушка:</strong>
-          12 122 из 14 0000
+          <strong>{{ category.title }}:</strong>
+          {{ category.spend | currency('EUR') }} из {{ category.limit | currency('EUR') }}
         </p>
         <div class="progress">
-          <div class="determinate green" style="width:40%"></div>
+          <div
+            class="determinate"
+            :class="[category.color]"
+            :style="{ width: category.progress + '%' }"
+          ></div>
         </div>
       </div>
     </section>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'planning',
+  data: () => ({
+    isLoading: true,
+    categories: [],
+  }),
+  computed: {
+    bill() {
+      return this.$store.getters.userInfo.bill
+    },
+  },
+  async mounted() {
+    if (!this.$store.getters.categories.length) {
+      await this.$store.dispatch('fetchCategories')
+    }
+
+    const categories = this.$store.getters.categories
+    const records = await this.$store.dispatch('fetchRecords')
+
+    this.categories = categories.map(cat => {
+      const spend = Object.values(records)
+        .filter(record => record.categorie === cat.id)
+        .filter(record => record.type === 'outcome')
+        .reduce((total, currRecord) => {
+          return (total += +currRecord.amount)
+        }, 0)
+
+      const percent = (100 * spend) / cat.limit
+      const progress = percent > 100 ? 100 : percent
+
+      let color
+      if (percent < 60) color = 'green'
+      else if (percent > 100) color = 'red'
+      else color = 'yellow'
+
+      return {
+        ...cat,
+        progress,
+        color,
+        spend,
+      }
+    })
+
+    this.isLoading = false
+  },
+}
+</script>

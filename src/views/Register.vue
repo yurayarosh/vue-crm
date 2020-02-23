@@ -97,10 +97,7 @@ export default {
 
           const BASE_BILL = 1000
 
-          localStorage.setItem('token', data.idToken)
-          localStorage.setItem('userName', this.name)
           localStorage.setItem('userId', data.localId)
-          localStorage.setItem('userBill', BASE_BILL)
 
           this.$store.commit('setUser', {
             name: this.name,

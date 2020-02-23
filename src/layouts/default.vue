@@ -8,7 +8,7 @@
 
     <main class="app-content" :class="{ full: !asideIsOpen }">
       <div class="app-page">
-          <router-view></router-view>
+        <router-view></router-view>
       </div>
     </main>
 
@@ -34,15 +34,23 @@ export default {
     VNavbar,
     VAside,
   },
-  mounted() {
-    if (localStorage.token) {
-      this.$store.commit('setUser', {
-        name: localStorage.userName,
-        id: localStorage.userId,
-        bill: localStorage.userBill,
-      })
+  async mounted() {
+    if (localStorage.userId) {
+      if (!this.$store.getters.userInfo.id) {
+        this.$store.commit('setUser', {
+          id: localStorage.userId,
+        })
+        const userInfo = await this.$store.dispatch('getUserInfo')
 
-      this.isLoading = false
+        this.$store.commit('setUser', {
+          name: userInfo.name,
+          bill: userInfo.bill,
+        })
+
+        this.isLoading = false
+      } else {
+        this.isLoading = false
+      }
     } else {
       this.$router.push('login')
     }

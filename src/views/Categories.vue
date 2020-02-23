@@ -26,19 +26,15 @@ import CategoriesEditForm from '@/components/CategoriesEditForm'
 export default {
   name: 'Categories',
   data: () => ({
-    isLoading: false,
+    isLoading: true,
   }),
   components: {
     CategoriesAddForm,
     CategoriesEditForm,
   },
   async mounted() {
-    this.isLoading = true
-
     if (!this.$store.getters.categories.length) {
-      await this.$store.dispatch('fetchCategories', {
-        id: this.$store.state.auth.userId,
-      })
+      await this.$store.dispatch('fetchCategories')
     }
     
     this.isLoading = false
