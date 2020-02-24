@@ -25,8 +25,8 @@ export default new Vuex.Store({
       // const key = process.env.VUE_APP_FIXER_KEY
 
       const response = await fetch(
-        'https://api.exchangeratesapi.io/latest'
-        // `http://data.fixer.io/api/latest?access_key=${key}&symbols=UAH,USD,EUR`
+        // 'https://api.exchangeratesapi.io/latest'
+        'https://api.exchangerate-api.com/v4/latest/UAH'
       )
       return await response.json()
     },

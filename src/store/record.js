@@ -27,5 +27,19 @@ export default {
         id,
       }))
     },
+    async fetchRecordById({ getters }, id) {
+      const userId = getters.userInfo.id
+
+      const response = await fetch(
+        `https://vue-crm-e390f.firebaseio.com/users/${userId}/records/${id}.json`
+      )
+      
+      return await response.json()
+
+      // return Object.keys(records).map(id => ({
+      //   ...records[id],
+      //   id,
+      // }))
+    },
   },
 }

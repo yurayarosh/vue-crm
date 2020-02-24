@@ -21,10 +21,10 @@ export default {
   data: () => ({
     list: [
       { title: 'Счет', to: '/', exact: true },
-      { title: 'История', to: 'history' },
-      { title: 'Планирование', to: 'planning' },
-      { title: 'Новая запись', to: 'record' },
-      { title: 'Категории', to: 'categories' },
+      { title: 'История', to: '/history' },
+      { title: 'Планирование', to: '/planning' },
+      { title: 'Новая запись', to: '/record' },
+      { title: 'Категории', to: '/categories' },
     ],
   }),
   computed: {
