@@ -38,7 +38,7 @@ export default {
   methods: {
     async getCurrency() {
       this.currency = await this.$store.dispatch('getCurrency')
-      
+
       this.isLoading = false
     },
     refreshData() {

@@ -10,7 +10,7 @@
       @focus="onFocus"
       @blur="onBlur"
     />
-    <label :for="_uid" :class="{ 'active': !!value || hasFocus }">{{ label }}</label>
+    <label :for="_uid" :class="{ active: !!value || hasFocus }">{{ label }}</label>
     <small v-show="hasError" class="helper-text invalid">{{ errorMessage }}</small>
   </div>
 </template>

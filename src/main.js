@@ -13,7 +13,6 @@ import './registerServiceWorker'
 import 'materialize-css/dist/css/materialize.css'
 import './index.css'
 
-
 Vue.config.productionTip = false
 Vue.use(showMessage)
 Vue.filter('date', dateFilter)

@@ -10,9 +10,7 @@
       v-bind="$attrs"
       v-on="inputListeners"
     >
-      <option v-for="(option, i) in options" :key="i" :value="option.id">{{
-        option.title
-      }}</option>
+      <option v-for="(option, i) in options" :key="i" :value="option.id">{{ option.title }}</option>
     </select>
 
     <small v-show="hasError" class="helper-text invalid">{{ errorMessage }}</small>
@@ -58,8 +56,8 @@ export default {
     },
     options: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
 }
 </script>

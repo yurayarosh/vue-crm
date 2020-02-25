@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import chunkArray from '@/utils/chunkArray'
 
 export default {
   data(vm) {
@@ -12,8 +12,9 @@ export default {
   },
   methods: {
     setupPagination(allItems) {
-      this.allItems = _.chunk(allItems, this.itemsPerPage)
-      this.pageCount = _.size(this.allItems)
+      this.allItems = chunkArray(allItems, this.itemsPerPage)
+
+      this.pageCount = this.allItems.length
       this.items = this.allItems[this.page - 1] || this.allItems[0]
     },
     paginateHandler(page) {

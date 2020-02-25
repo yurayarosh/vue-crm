@@ -21,7 +21,6 @@ export default {
     },
   },
   mounted() {
-    
     const data = this.categories.map(c => {
       return this.records.reduce((total, record) => {
         if (record.categorie === c.id && record.type === 'outcome') {
@@ -32,7 +31,7 @@ export default {
       }, 0)
     })
     const labels = this.categories.map(c => c.title)
-    const backgroundColor = labels.map(() => this.getRandomColor())    
+    const backgroundColor = labels.map(() => this.getRandomColor())
 
     this.renderChart({
       labels,

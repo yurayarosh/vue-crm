@@ -23,7 +23,7 @@ export default {
     },
     async postNewCategorie({ getters }, categorie) {
       const userId = getters.userInfo.id
-      
+
       return await fetch(`https://vue-crm-e390f.firebaseio.com/users/${userId}/categories.json`, {
         method: 'POST',
         body: JSON.stringify(categorie),

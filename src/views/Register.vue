@@ -5,21 +5,21 @@
       <v-input
         type="text"
         label="Email"
-        :inputClasses="{ 'invalid': $v.email.$error }"
+        :inputClasses="{ invalid: $v.email.$error }"
         :hasError="$v.email.$error"
         v-model.trim="email"
       />
       <v-input
         type="password"
         label="Пароль"
-        :inputClasses="{ 'invalid': $v.password.$error }"
+        :inputClasses="{ invalid: $v.password.$error }"
         :hasError="$v.password.$error"
         v-model.trim="password"
       />
       <v-input
         type="text"
         label="Имя"
-        :inputClasses="{ 'invalid': $v.name.$error }"
+        :inputClasses="{ invalid: $v.name.$error }"
         :hasError="$v.name.$error"
         v-model.trim="name"
       />
@@ -55,7 +55,7 @@ export default {
   mixins: [validationMixin],
   components: {
     VInput,
-    VBtn
+    VBtn,
   },
   data: () => ({
     email: '',

@@ -17,14 +17,14 @@ export default {
   name: 'v-radio',
   model: {
     prop: 'modelValue',
-    event: 'change'
+    event: 'change',
   },
   props: {
     value: {
-      type: [String, Number]
+      type: [String, Number],
     },
     modelValue: {
-      default: ''
+      default: '',
     },
   },
   computed: {
@@ -34,7 +34,7 @@ export default {
     inputListeners() {
       return {
         ...this.$listeners,
-        change: () => {          
+        change: () => {
           this.$emit('change', this.value)
         },
       }

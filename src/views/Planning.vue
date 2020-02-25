@@ -50,7 +50,7 @@ export default {
     }
 
     const categories = this.$store.getters.categories
-    this.records = await this.$store.dispatch('fetchRecords') || []
+    this.records = (await this.$store.dispatch('fetchRecords')) || []
 
     if (categories && categories.length > 0) {
       this.categories = categories.map(cat => {

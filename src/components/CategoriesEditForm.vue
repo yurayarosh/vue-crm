@@ -59,13 +59,13 @@ export default {
   },
   watch: {
     categories(cats) {
-      if(cats.length > 1) return
+      if (cats.length > 1) return
       const { title, limit, id } = this.categories[0]
 
       this.categorie = id
       this.setInputsValues({ title, limit })
     },
-    categorie(value) {      
+    categorie(value) {
       const { title, limit } = this.categories.find(cat => value === cat.id)
       this.setInputsValues({ title, limit })
     },
@@ -82,7 +82,7 @@ export default {
     setInputsValues({ title, limit }) {
       this.title = title
       this.limit = limit
-    }
+    },
   },
   validations: {
     title: {

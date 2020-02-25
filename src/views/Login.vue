@@ -5,14 +5,14 @@
       <v-input
         type="text"
         label="Email"
-        :inputClasses="{ 'invalid': $v.email.$error }"
+        :inputClasses="{ invalid: $v.email.$error }"
         :hasError="$v.email.$error"
         v-model.trim="email"
       />
       <v-input
         type="password"
         label="Пароль"
-        :inputClasses="{ 'invalid': $v.password.$error }"
+        :inputClasses="{ invalid: $v.password.$error }"
         :hasError="$v.password.$error"
         v-model.trim="password"
       />
@@ -42,7 +42,7 @@ export default {
   mixins: [validationMixin],
   components: {
     VInput,
-    VBtn
+    VBtn,
   },
   data: () => ({
     email: '',
@@ -81,7 +81,7 @@ export default {
 
           this.$store.commit('setUser', {
             id: data.localId,
-          })          
+          })
 
           const userInfo = await this.$store.dispatch('getUserInfo')
           localStorage.setItem('userId', data.localId)

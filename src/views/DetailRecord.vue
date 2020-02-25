@@ -31,13 +31,13 @@ export default {
   name: 'datail-record',
   data: () => ({
     isLoading: true,
-    record: null
+    record: null,
   }),
   async mounted() {
     if (!this.$store.getters.categories.length) {
       await this.$store.dispatch('fetchCategories')
     }
-    
+
     const record = await this.$store.dispatch('fetchRecordById', this.$route.params.id)
     const [category] = this.$store.getters.categories.filter(cat => cat.id === record.categorie)
 
@@ -45,7 +45,7 @@ export default {
       ...record,
       categorie: category.title,
       color: record.type === 'outcome' ? 'red' : 'green',
-    }    
+    }
 
     this.isLoading = false
   },

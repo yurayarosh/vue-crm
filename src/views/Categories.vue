@@ -36,7 +36,7 @@ export default {
     if (!this.$store.getters.categories.length) {
       await this.$store.dispatch('fetchCategories')
     }
-    
+
     this.isLoading = false
   },
   computed: {

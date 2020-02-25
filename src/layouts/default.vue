@@ -39,7 +39,7 @@ export default {
       if (!this.$store.getters.userInfo.id) {
         this.$store.commit('setUser', {
           id: localStorage.userId,
-        })        
+        })
         const userInfo = await this.$store.dispatch('getUserInfo')
 
         this.$store.commit('setUser', {

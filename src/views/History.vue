@@ -53,7 +53,7 @@ export default {
       await this.$store.dispatch('fetchRecords')
     }
 
-    const categories = this.$store.getters.categories    
+    const categories = this.$store.getters.categories
     const records = this.$store.getters.records
 
     if (records && records.length > 0) {

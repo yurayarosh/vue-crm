@@ -81,10 +81,10 @@ export default {
       await this.$store.dispatch('fetchCategories')
     }
 
-    if(!this.categories.length) {
+    if (!this.categories.length) {
       this.isLoading = false
       return
-    }    
+    }
 
     const { id } = this.categories[0]
     this.categorie = id

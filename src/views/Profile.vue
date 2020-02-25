@@ -8,7 +8,7 @@
       <v-input
         type="text"
         label="Имя"
-        :inputClasses="{ 'invalid': $v.name.$error }"
+        :inputClasses="{ invalid: $v.name.$error }"
         :hasError="$v.name.$error"
         v-model.trim="name"
       />
@@ -40,7 +40,7 @@ export default {
     name: { required },
   },
   mounted() {
-    this.name = this.userInfo.name    
+    this.name = this.userInfo.name
   },
   computed: {
     ...mapGetters(['userInfo']),
@@ -61,7 +61,7 @@ export default {
         method: 'POST',
         body: JSON.stringify({
           name: this.name,
-          bill: this.userInfo.bill
+          bill: this.userInfo.bill,
         }),
       })
 

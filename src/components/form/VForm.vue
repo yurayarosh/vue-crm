@@ -21,22 +21,22 @@ export default {
   },
   props: {
     title: {
-      type: String
+      type: String,
     },
     btnTitle: {
-      type: String
+      type: String,
     },
     titleClass: {
-      type: [String, Object]
+      type: [String, Object],
     },
     formClass: {
-      type: String
-    }
+      type: String,
+    },
   },
   computed: {
     classes() {
       return this.titleClass || 'page-subtitle'
-    }
+    },
   },
 }
 </script>
