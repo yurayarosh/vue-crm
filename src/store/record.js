@@ -27,6 +27,7 @@ export default {
       )
       
       const data = await response.json()
+      if(!data) return
 
       const records =  Object.keys(data).map(id => ({
         ...data[id],
@@ -47,11 +48,6 @@ export default {
       )
       
       return await response.json()
-
-      // return Object.keys(records).map(id => ({
-      //   ...records[id],
-      //   id,
-      // }))
     },
   },
   getters: {

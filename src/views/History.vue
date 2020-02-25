@@ -4,15 +4,15 @@
       <h3>История записей</h3>
     </div>
 
-    <div class="history-chart">
-      <v-chart />
-    </div>
-
     <v-preloader v-if="isLoading" />
 
     <p v-else-if="!records.length">Записей пока нет</p>
 
     <section v-else>
+      <div class="history-chart">
+        <v-chart />
+      </div>
+
       <history-table :records="items" />
 
       <v-pagination
@@ -49,20 +49,25 @@ export default {
     if (!this.$store.getters.categories.length) {
       await this.$store.dispatch('fetchCategories')
     }
+    if (!this.$store.getters.records.length) {
+      await this.$store.dispatch('fetchRecords')
+    }
 
-    const categories = this.$store.getters.categories
-    const records = await this.$store.dispatch('fetchRecords')
+    const categories = this.$store.getters.categories    
+    const records = this.$store.getters.records
 
-    this.records = records.map(record => {
-      return {
-        ...record,
-        categoryName: categories.find(cat => cat.id === record.categorie).title,
-        typeColor: record.type === 'income' ? 'green' : 'red',
-        typeText: record.type === 'income' ? 'Доход' : 'Расход',
-      }
-    })
+    if (records && records.length > 0) {
+      this.records = records.map(record => {
+        return {
+          ...record,
+          categoryName: categories.find(cat => cat.id === record.categorie).title,
+          typeColor: record.type === 'income' ? 'green' : 'red',
+          typeText: record.type === 'income' ? 'Доход' : 'Расход',
+        }
+      })
 
-    this.setupPagination(this.records)
+      this.setupPagination(this.records)
+    }
 
     this.isLoading = false
   },

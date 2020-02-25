@@ -1,10 +1,9 @@
 import _ from 'lodash'
 
 export default {
-  data() {
+  data(vm) {
     return {
-      // page: +this.$router.query.page || 1,
-      page: 1,
+      page: +vm.$route.query.page || 1,
       itemsPerPage: 4,
       pageCount: 0,
       allItems: [],

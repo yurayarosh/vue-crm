@@ -104,15 +104,15 @@ export default {
       await this.$store.dispatch('postRecord', {
         categorie: this.categorie,
         type: this.type,
-        amount: this.amount,
+        amount: +this.amount,
         description: this.description,
         date: new Date().toJSON(),
       })
 
       const updBill =
         this.type === 'income'
-          ? this.$store.getters.userInfo.bill + this.amount
-          : this.$store.getters.userInfo.bill - this.amount
+          ? +this.$store.getters.userInfo.bill + +this.amount
+          : +this.$store.getters.userInfo.bill - +this.amount
 
       this.$store.commit('setUser', {
         bill: updBill,

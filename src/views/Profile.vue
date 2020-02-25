@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators/'
 import VInput from '@/components/form/VInput'
@@ -39,7 +40,10 @@ export default {
     name: { required },
   },
   mounted() {
-    this.name = this.$store.state.auth.userName
+    this.name = this.userInfo.name    
+  },
+  computed: {
+    ...mapGetters(['userInfo']),
   },
   methods: {
     async onSubmit() {
@@ -48,7 +52,7 @@ export default {
         return
       }
 
-      const url = `https://vue-crm-e390f.firebaseio.com/users/${this.$store.state.auth.userId}.json`
+      const url = `https://vue-crm-e390f.firebaseio.com/users/${this.userInfo.id}/info.json`
 
       await fetch(url, {
         method: 'DELETE',
@@ -57,12 +61,13 @@ export default {
         method: 'POST',
         body: JSON.stringify({
           name: this.name,
-          bill: this.$store.state.auth.userBill
+          bill: this.userInfo.bill
         }),
       })
 
-      this.$store.commit('setUser', { name: this.name })
-      localStorage.setItem('userName', this.name)
+      this.$store.commit('setUser', {
+        name: this.name,
+      })
     },
   },
 }

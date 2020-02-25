@@ -14,20 +14,14 @@ export default new Vuex.Store({
     async getUserInfo({ getters }) {
       const userId = getters.userInfo.id
 
-      const response = await fetch(
-        `https://vue-crm-e390f.firebaseio.com/users/${userId}/info.json`
-      )
+      const response = await fetch(`https://vue-crm-e390f.firebaseio.com/users/${userId}/info.json`)
 
       const data = await response.json()
+
       return Object.values(data)[0]
     },
     async getCurrency() {
-      // const key = process.env.VUE_APP_FIXER_KEY
-
-      const response = await fetch(
-        // 'https://api.exchangeratesapi.io/latest'
-        'https://api.exchangerate-api.com/v4/latest/UAH'
-      )
+      const response = await fetch('https://api.exchangerate-api.com/v4/latest/UAH')
       return await response.json()
     },
     async updateUserInfo({ getters }, updData) {
@@ -38,18 +32,14 @@ export default new Vuex.Store({
 
       const newUserData = { ...Object.values(data)[0], ...updData }
 
-      await fetch(
-        `https://vue-crm-e390f.firebaseio.com/users/${userId}/info.json`,
-        { method: 'DELETE' }
-      )
+      await fetch(`https://vue-crm-e390f.firebaseio.com/users/${userId}/info.json`, {
+        method: 'DELETE',
+      })
 
-      await fetch(
-        `https://vue-crm-e390f.firebaseio.com/users/${userId}/info.json`,
-        {
-          method: 'POST',
-          body: JSON.stringify(newUserData)
-        }
-      )
+      await fetch(`https://vue-crm-e390f.firebaseio.com/users/${userId}/info.json`, {
+        method: 'POST',
+        body: JSON.stringify(newUserData),
+      })
     },
   },
   modules: {

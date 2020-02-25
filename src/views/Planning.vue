@@ -2,18 +2,20 @@
   <div>
     <div class="page-title">
       <h3>Планирование</h3>
-      <h4>{{ bill | currency('EUR') }}</h4>
+      <h4>{{ bill | currency }}</h4>
     </div>
 
     <v-preloader v-if="isLoading" />
 
     <p v-else-if="!categories.length">Пока нет ни одной категории</p>
 
+    <p v-else-if="!records.length">Пока нет ни одной записи</p>
+
     <section v-else>
       <div v-for="(category, i) in categories" :key="i" v-tooltip="category.tooltip">
         <p>
           <strong>{{ category.title }}:</strong>
-          {{ category.spend | currency() }} из {{ category.limit | currency() }}
+          {{ category.spend | currency }} из {{ category.limit | currency }}
         </p>
         <div class="progress">
           <div
@@ -35,6 +37,7 @@ export default {
   data: () => ({
     isLoading: true,
     categories: [],
+    records: [],
   }),
   computed: {
     bill() {
@@ -47,36 +50,40 @@ export default {
     }
 
     const categories = this.$store.getters.categories
-    const records = await this.$store.dispatch('fetchRecords')
+    this.records = await this.$store.dispatch('fetchRecords') || []
 
-    this.categories = categories.map(cat => {
-      const spend = records
-        .filter(record => record.categorie === cat.id)
-        .filter(record => record.type === 'outcome')
-        .reduce((total, currRecord) => {
-          return (total += +currRecord.amount)
-        }, 0)
+    if (categories && categories.length > 0) {
+      this.categories = categories.map(cat => {
+        if (!this.records.length) return
 
-      const percent = (100 * spend) / cat.limit
-      const progress = percent > 100 ? 100 : percent
-      const restValue = +spend - +cat.limit
-      const tooltip = `${restValue < 0 ? 'Осталось' : 'Лимит превышен на'} ${currencyFilter(
-        Math.abs(restValue)
-      )}`
+        const spend = this.records
+          .filter(record => record.categorie === cat.id)
+          .filter(record => record.type === 'outcome')
+          .reduce((total, currRecord) => {
+            return (total += +currRecord.amount)
+          }, 0)
 
-      let color
-      if (percent < 60) color = 'green'
-      else if (percent > 100) color = 'red'
-      else color = 'yellow'
+        const percent = (100 * spend) / cat.limit
+        const progress = percent > 100 ? 100 : percent
+        const restValue = +spend - +cat.limit
+        const tooltip = `${restValue < 0 ? 'Осталось' : 'Лимит превышен на'} ${currencyFilter(
+          Math.abs(restValue)
+        )}`
 
-      return {
-        ...cat,
-        progress,
-        color,
-        spend,
-        tooltip,
-      }
-    })
+        let color
+        if (percent < 60) color = 'green'
+        else if (percent >= 100) color = 'red'
+        else color = 'yellow'
+
+        return {
+          ...cat,
+          progress,
+          color,
+          spend,
+          tooltip,
+        }
+      })
+    }
 
     this.isLoading = false
   },

@@ -95,14 +95,14 @@ export default {
         if (response.ok) {
           const data = await response.json()
 
-          const BASE_BILL = 1000
+          const bill = process.env.VUE_APP_BILL || 1000
 
           localStorage.setItem('userId', data.localId)
 
           this.$store.commit('setUser', {
             name: this.name,
             id: data.localId,
-            bill: BASE_BILL,
+            bill,
           })
 
           const userData = {
