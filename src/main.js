@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VPagination from 'vuejs-paginate'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -19,6 +20,7 @@ Vue.filter('date', dateFilter)
 Vue.filter('currency', currencyFilter)
 Vue.directive('tooltip', tooltipDirective)
 Vue.component('v-preloader', VPreloader)
+Vue.component('v-pagination', VPagination)
 
 new Vue({
   router,
