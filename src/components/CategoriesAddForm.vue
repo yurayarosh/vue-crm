@@ -46,18 +46,15 @@ export default {
       const catId = performance.now().toString()
 
       await this.$store.dispatch('postNewCategorie', {
-        categorie: {
-          title: this.title,
-          limit: this.limit,
-          id: catId,
-        },
-        userId: this.$store.state.auth.userId,
+        title: this.title,
+        limit: this.limit,
+        id: catId,
       })
 
       this.$store.commit('addCategorie', {
         title: this.title,
         limit: this.limit,
-        id: catId
+        id: catId,
       })
 
       this.title = ''
