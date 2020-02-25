@@ -35,6 +35,7 @@ export default {
     VAside,
   },
   async mounted() {
+    localStorage.clear()
     if (localStorage.userId) {
       if (!this.$store.getters.userInfo.id) {
         this.$store.commit('setUser', {
